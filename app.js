@@ -1,7 +1,7 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const path = require('path');
-require('dotenv').config();
+require("dotenv").config();
+const mongoose = require("mongoose");
 const cookieParser = require('cookie-parser');
 const auth = require('./middleware/auth');
 
@@ -25,6 +25,10 @@ app.use('/api/questions', questions);
 app.get('/', (req, res) => {
   res.render('disapp'); 
 });
+
+
+
+console.log("MONGO_URI:", process.env.MONGO_URI);
 
 const PORT = 5000;
 mongoose.connect(process.env.MONGO_URI)
