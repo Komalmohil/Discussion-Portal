@@ -25,7 +25,7 @@ app.use('/api/questions', questions);
 app.get('/', (req, res) => {
   res.render('disapp'); 
 });
-
+const MONGO_URI = process.env.MONGO_URI;
 const PORT = 5000;
 mongoose.connect(MONGO_URI)
   .then(() => {
