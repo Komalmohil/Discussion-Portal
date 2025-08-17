@@ -46,7 +46,7 @@ header {
   border: none;
   border-radius: 4px;
   font-weight: bold;
-  cursor: pointer;
+ cursor: pointer;
 }
 
 #search {
@@ -85,7 +85,7 @@ button {
   background-color: #7dafe1;
    border-radius: 4px;
    border:none;
-   color:white
+   color:rgb(255, 255, 255)
 }
 
 #response{
@@ -97,7 +97,26 @@ button {
   border-radius: 4px;
   padding: 1px;
 }
+#submit{
+  width:90px;
+  height:40px;
+}
+
 .time{
  font-size:8px ;
  color:#080808;
+}
+header {
+  background: #4482d4;
+  color: white;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header a {
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+  margin-left: 10px;
 }

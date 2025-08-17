@@ -2,26 +2,34 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 require('dotenv').config();
+const cookieParser = require('cookie-parser');
+const auth = require('./middleware/auth');
 
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookieParser());
+app.use(auth);
 
-const questions= require('./routes/question');
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+const authRoutes = require("./routes/auth");
+app.use("/", authRoutes);
+
+const questions = require('./routes/question');
 app.use('/api/questions', questions);
 
-app.get('/',(req,res)=>{
-    res.sendFile(path.join(__dirname,"public","disapp.html"))
-})
+app.get('/', (req, res) => {
+  res.render('disapp'); 
+});
 
-
-mongoose.connect(process.env.mongodb)
-.then(() => {
+const PORT = 5000;
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => {
     console.log('MongoDB Connected');
-app.listen(3000, () => console.log(`Server is running`));
-
-}).catch(err => console.error('DB Error:', err));
-
-
-
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  })
+  .catch(err => console.error('DB Error:', err));

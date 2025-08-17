@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Discussion Portal</title>
+  <link rel="stylesheet" href="disapp.css">
+</head>
+<body>
+
+<%- include('partials/header') %>
+
+  <div id="container">
+      <div id="left-pane">
+        <div class="top-controls">
+          <button id="new-btn">New Question form</button>
+          <input type="text" id="search" placeholder="search questions...">
+        </div>
+        <ul id="question-list"></ul>
+      </div>
+
+        <div id="right-pane">
+            <div id="welcome-box">
+              <h2>Welcome</h2>
+              <p>Enter data</p>
+              <form id="question-form">
+                <form id="question-form">
+                <input type="text" id="title" name="title" placeholder="Subject" required>
+                <textarea id="description" name="description" placeholder="Question" required></textarea>
+                <button id="submit" type="submit">Submit</button>
+                <div id="error-msg" style="color:red; margin-top:8px;"></div>
+              </form>
+            </div>
+            
+            <div id="response">
+              <h2>Question</h2>
+              <div id="clicked"> </div>
+                <button id="resolve">Resolve</button>
+
+              <h2>Response</h2>
+              <div id="submitted"> </div>
+
+
+              <h4>Add response</h4>
+              <form id="response-form">
+                <input type="text" name="name" placeholder="name">
+                <textarea name="answer" placeholder="your answer"></textarea>
+                <button type="submit">Submit Respose</button>
+              </form>
+
+            </div>
+             
+        </div>
+  </div>
+ 
+  <script src="disapp.js"></script>
+</body>
+</html>

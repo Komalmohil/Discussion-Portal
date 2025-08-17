@@ -1,46 +1,69 @@
 let allQuestions=[];
 
-document.addEventListener('DOMContentLoaded',()=>{
-  const quesForm = document.getElementById('question-form');
-  loadAllQ();
-   
-  quesForm.addEventListener('submit',async (e)=>{
-    e.preventDefault();
-    const title=quesForm.title.value;
-    const description=quesForm.description.value;
-   
-    try{
-      const res =await fetch('/api/questions',{
-        method:'POST',
-        headers:{'Content-Type': 'application/json'},
-        body: JSON.stringify({title,description})
-      });
-      
-       const savedQuestion= await res.json();
-        appendQuestionToList(savedQuestion);
+document.addEventListener('DOMContentLoaded', () => {
+  const quesForm = document.getElementById("question-form");
 
-      quesForm.reset();
-    } catch(err){
-      console.error(err);
+quesForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const titleEl = document.getElementById("title");
+  const descEl = document.getElementById("description");
+  const errorDiv = document.getElementById("error-msg");
+
+  const title = titleEl.value.trim();
+  const description = descEl.value.trim();
+
+  if (!title || !description) {
+    errorDiv.textContent = "Please fill in both fields.";
+    return;
+  }
+
+  try {
+    const res = await fetch("/api/questions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title, description }),
+    });
+
+    if (!res.ok) {
+      const { error } = await res.json();
+      errorDiv.textContent = error || "Failed to save question.";
+      return;
     }
+
+    const savedQuestion = await res.json();
+    appendQuestionToList(savedQuestion);
+
+    quesForm.reset();
+    errorDiv.textContent = ""; 
+  } catch (err) {
+    errorDiv.textContent = "⚠️ Error submitting question. Try again.";
+    console.error("Error submitting question:", err);
+  }
+});
+
+
+  const searchBox = document.getElementById('search');
+  searchBox.addEventListener('change', (e) => {
+    e.preventDefault();
+    const term = searchBox.value.trim();
+    if (!term) {
+      displayQuestions(allQuestions);
+    } else {
+      const filtered = allQuestions.filter(q =>
+        q.title.includes(term)
+      );
+      displayQuestions(filtered, term);
+    }
+    searchBox.value = "";
   });
 
- const searchBox=document.getElementById('search');
- searchBox.addEventListener('change',(e)=>{
-      e.preventDefault();
-      const term = searchBox.value.trim();
-      if(!term){   displayQuestions(allQuestions);  }
-     else {
-        const filtered = allQuestions.filter(q =>
-          q.title.includes(term)
-        );
-        displayQuestions(filtered,term);
-      }
-      searchBox.value=" ";
-    }); 
-  const newF =document.getElementById("new-btn");
-  newF.addEventListener("click",showQF)
+  const newF = document.getElementById("new-btn");
+  newF.addEventListener("click", showQF);
+
+  loadAllQ();
 });
+
 
 
 async function loadAllQ() {
@@ -79,12 +102,6 @@ let title= q.title;
  };
  list.appendChild(li);
 
-//  const created=new Date(q.createdAt);
-// const updated= new Date(q.updated);
-// const info = document.createElement("p");
-// info.className="time"
-// info.textContent=`Created at${created}: Updated at ${updated}`
-// li.appendChild(info);
  });
 }
 
@@ -230,22 +247,3 @@ for(let i=1; i<arr.length;i++){
 }
 }}
 
-
-// const container=document.getElementById('submitted');
-// let swapped;
-// do{
-//   swapped = false;
-//   const child=container.children;
-//   for(let i=0;i<child.length-1;i++){
-//     const span1= child[i].querySelector('span')
-//     const span2=child[i+1].querySelector('span')
-    
-//     const l1= parseInt(span1.textContent,10);
-//     const l2=parseInt(span2.textContent,10);
-  
-//     if(l1>l2){
-//       container.insertBefore(child[i+1],child[i]);
-//       swapped=true;
-//     }
-//   }
-// }while(swapped);
