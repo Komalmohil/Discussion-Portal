@@ -26,10 +26,6 @@ app.get('/', (req, res) => {
   res.render('disapp'); 
 });
 
-
-
-console.log("MONGO_URI:", process.env.MONGO_URI);
-
 const PORT = 5000;
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
